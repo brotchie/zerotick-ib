@@ -1,3 +1,20 @@
+#
+# http://buildr.apache.org/ build file.
+#
+# Install buildr: 
+#
+#     gem install buildr
+#
+# Run zerotick-ib server:
+#
+#     buildr run
+#
+# The Java msgpack library is automatically downloaded from
+# the global maven repository. The Java zeromq bindings and
+# the Interactive Brokers API (jtsclient.jar) must be manually
+# placed in your local Maven repository (usually ~/.m2/repository).
+#
+
 VERSION_NUMBER = "1.0.0"
 GROUP = "org.zerotick"
 COPYRIGHT = "James Brotchie <brotchie@gmail.com>"
