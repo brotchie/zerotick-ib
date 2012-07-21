@@ -27,7 +27,8 @@ public class Server {
 
             client.reqMktData(5, ContractFactory.Option("AAPL", "201208", "PUT", 610.0, "SMART", "USD"), "", false);
             wrapper.registerMnemonic(5, "AAPL 20120818 C 610.00 SMART USD");
+
+            client.reader().join();
         }
-        client.reader().join();
     }
 }
