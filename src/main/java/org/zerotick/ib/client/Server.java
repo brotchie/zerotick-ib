@@ -5,6 +5,9 @@ import com.ib.client.Contract;
 
 import java.lang.InterruptedException;
 
+import org.zerotick.TickPublisher;
+import java.lang.Thread;
+
 public class Server {
     public static void main(String[] args) throws InterruptedException {
         Wrapper wrapper = new Wrapper();
@@ -12,13 +15,6 @@ public class Server {
 
         client.eConnect("localhost", 4001, 0);
         if (client.isConnected()) {
-            Contract contract = new Contract();
-            /*client.reqMktData(1, ContractFactory.Future("ES", "20120921", "GLOBEX", "USD"), "", false);
-            wrapper.registerMnemonic(1, "FUT ES 20120921 GLOBEX USD");
-
-            client.reqMktData(2, ContractFactory.Stock("BHP", "ASX", "AUD"), "", false);
-            wrapper.registerMnemonic(2, "STK BHP ASX AUD");*/
-
             client.reqMktData(3, ContractFactory.Stock("AAPL", "SMART", "USD"), "", false);
             wrapper.registerMnemonic(3, "AAPL SPY SMART USD");
 

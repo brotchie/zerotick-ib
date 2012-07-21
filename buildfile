@@ -22,6 +22,7 @@ COPYRIGHT = "James Brotchie <brotchie@gmail.com>"
 MSGPACK = "org.msgpack:msgpack:jar:0.6.6"
 JTSCLIENT = "com.ib:jtsclient:jar:9.67"
 ZMQ = "org.zeromq:zmq:jar:1.0.0"
+JAVASSIST = "org.javassist:javassist:jar:3.16.1-GA"
 
 # Default Maven 2.0 repository.
 repositories.remote << "http://repo1.maven.org/maven2"
@@ -33,7 +34,7 @@ define "zerotick-ib" do
   project.version = VERSION_NUMBER
   project.group = GROUP
 
-  compile.with MSGPACK, JTSCLIENT, ZMQ
+  compile.with MSGPACK, JTSCLIENT, ZMQ, JAVASSIST
 
   manifest["Implementation-Vendor"] = COPYRIGHT
 

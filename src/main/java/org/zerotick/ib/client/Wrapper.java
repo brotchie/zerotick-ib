@@ -1,23 +1,16 @@
 package org.zerotick.ib.client;
 
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-
 import java.util.HashMap;
 
 import com.ib.client.*;
 
-import org.zeromq.ZMQ;
-
-import org.msgpack.MessagePack;
-import org.msgpack.packer.Packer;
+import org.zerotick.TickPublisher;
 
 public class Wrapper implements EWrapper {
     public Wrapper(){
         _mnemonics = new HashMap();
-        _context = ZMQ.context(1);
-        _socket = _context.socket(ZMQ.PUB);
-        _socket.bind("ipc:///var/tmp/ib");
+        _publisher = new TickPublisher("ipc:///var/tmp/ib");
+        _publisher.start();
     }
     /* AnyWrapper Implementation */
     public void error( Exception e){};
@@ -28,19 +21,7 @@ public class Wrapper implements EWrapper {
     /* EWrapper Implementation */
     public void tickPrice( int tickerId, int field, double price, int canAutoExecute){
         System.out.println(String.format("%d %d %f", tickerId, field, price));
-        MessagePack msgpack = new MessagePack(); 
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        Packer packer = msgpack.createPacker(out);
-        try {
-            packer.writeArrayBegin(3);
-            packer.write(lookupMnemonic(tickerId));
-            packer.write(field);
-            packer.write(price);
-            packer.writeArrayEnd();
-        } catch (IOException e) {}
-
-        _socket.send(out.toByteArray(), 0);
+        _publisher.publishTick(tickerId, field, price);
     }
     public void tickSize( int tickerId, int field, int size){};
     public void tickOptionComputation( int tickerId, int field, double impliedVol,
@@ -100,7 +81,6 @@ public class Wrapper implements EWrapper {
         return _mnemonics.get(id);
     }
 
-    private ZMQ.Context _context;
-    private ZMQ.Socket _socket;
     private HashMap<Integer, String> _mnemonics;
+    private TickPublisher _publisher;
 }

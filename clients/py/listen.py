@@ -12,8 +12,8 @@ def main():
     s.setsockopt(zmq.SUBSCRIBE, "")
     while 1:
         msg = s.recv()
+        print repr(msg)
         print msgpack.unpacks(msg)
-
 
 if __name__ == '__main__':
     main()
